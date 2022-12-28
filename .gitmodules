@@ -7,6 +7,7 @@
 [submodule "BPF-KV"]
 	path = BPF-KV
 	url = https://github.com/kangilkueon/BPF-KV.git
+	branch = main
 [submodule "My-YCSB"]
 	path = My-YCSB
 	url = https://github.com/xrp-project/My-YCSB.git
