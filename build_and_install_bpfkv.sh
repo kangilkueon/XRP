@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$(uname -r)" !=  "5.12.0-xrp+" ]; then
+if [ "$(uname -r)" !=  "5.12.0-xrp+" ] && [ "$(uname -r)" !=  "6.0.10-xrp" ]; then
     printf "Not in XRP kernel. Please run the following commands to boot into XRP kernel:\n"
     printf "    sudo grub-reboot \"Advanced options for Ubuntu>Ubuntu, with Linux 5.12.0-xrp+\"\n"
     printf "    sudo reboot\n"

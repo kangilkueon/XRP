@@ -1003,7 +1003,12 @@ static void nvme_submit_cmds(struct nvme_queue *nvmeq, struct request **rqlist)
 		struct request *req = rq_list_pop(rqlist);
 		struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
 
-		nvme_sq_copy_cmd(nvmeq, &iod->cmd);
+		if (req->xrp_command == NULL) {
+			nvme_sq_copy_cmd(nvmeq, &iod->cmd);
+		}
+		else {
+			nvme_sq_copy_cmd(nvmeq, req->xrp_command);
+		}
 	}
 	nvme_write_sq_db(nvmeq, true);
 	spin_unlock_irqrestore(&nvmeq->sq_lock, flags);
@@ -1247,6 +1252,8 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
 		atomic_long_add(ktime_sub(ktime_get(), resubmit_start), &xrp_resubmit_int_time);
 		atomic_long_inc(&xrp_resubmit_int_count);
 		nvme_submit_cmd(nvmeq, req);
+		
+		return;
 	}
 
 complete_req:
